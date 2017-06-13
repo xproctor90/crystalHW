@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+  	<title>Crystal Collector HW</title>
+ 
+
+ <link rel="stylesheet" type="text/css" href="assets/css/crystal.css">
+ <link rel="stylesheet" type="text/css" href="crystal.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+
+
+
+
+  </head>
+  <body>
+  
+ <div id = "wrapper">
+ 
+     <div class="wrapper">
+
+   
+      </div>
+      </div>
+  	<dic class="row">
+    <div class="col-md-1"> </div>
+	<div class="col-md-10">
+    <header>
+      <div class="jumbotron jumbotron-fluid"> </div>
+         
+      <div class="container">
+        <h1 class="display-3">A Crystal Collector</h1>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="instructions">
+         	<div id="instructions">
+         	<div class="row">
+         	<div class="col-md-1"></div>
+         	<div class="col-md-10">
+          	<p class="lead">You will be given a random number at the start of the game.</p>
+           	<p> There are four crystals below. By clicking on a crystal you will add a specific amount of points to your total score.</p>
+ 			<p> You win the game by matching your total score to the random number. You lose the game if your total score goes above the random number. </p>
+ 			<p> Each time the game starts, the game will change the values of each crystal.</p>
+ 			
+  			 <h2>Can you add it up correctly?</h2>
+  			 </div>
+  			 <div class="col-md-1"></div>
+  			 </div>
+      </div>
+      </div>
+  
+        </div>
+        </div>
+        </div>
+        </header>
+
+ 		    
+         
+        
+   		<div class = "container">
+
+ 	     	<div class="row">
+    		  	
+      			<div class="col-md-12"> 
+ 					<div id="guessingNumber"> <h2>Number to Guess: <span class="value"></span></h2> </div>
+ 
+ 					<div id="scoreboard"> </div>
+ 						<br>
+ 					<h3>Wins: <span id="win"></span></h3>
+ 						<br>
+ 					<h3>Losses: <span id="loss"></span> </h3>
+ 					<div id="crystals"></div>
+ 
+    				<div id ="totalScore"> </div>
+ 					<h2 id = "yts">Your Total Score is: <span id ="yourScore">0</span></h2> 
+ 				</div>
+ 				
+  			</div>
+
+  		
+
+
+ 		</div>
+ 	
+  <!-- adding jQuery -->
+  
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+
+
+
+
+ <script type="text/javascript">
+
+$(document).ready(function() {
+ 
+  crystals = ['assets/images/greensrystal.png','assets/images/bluecrystal.png','assets/images/redcrystal.png','assets/images/purplecrystal.png'];
+ 
+ var counter = 0;
+ var wins = 0;
+ 	var losses = 0;
+ 	$('#win').text(wins);
+ 	$('#loss').text(losses);
+ 	
+ 	newCrystals();
+ 	newGame();
+ 
+ 	function newCrystals () {
+ 		var numbers = []
+ 			while(numbers.length < 4){
+ 			  var randomnumber = Math.ceil(Math.random()*12)
+ 			  var found = false;
+ 			  for (var i=0; i< numbers.length; i++){
+ 				if (numbers[i] == randomnumber){
+ 					found = true; break
+ 				}
+ 			  }
+ 			  if(!found)numbers[numbers.length]=randomnumber;
+ 			}
+ 		console.log(numbers);		
+ 
+ 		for (i = 0; i < numbers.length; i++) {
+ 			var imageCrystal = $('<img>');
+ 			imageCrystal.attr('data-num', numbers[i]);
+ 			imageCrystal.attr('src', crystals[i]);
+ 			imageCrystal.attr('alt', 'crystals');
+ 			imageCrystal.addClass('crystalImage')
+ 			$('#crystals').append(imageCrystal);
+ 		}
+ 	}
+ 
+ 	function newGame() {
+ 
+ 		counter = 0;
+ 		$('#yourScore').text(counter);
+ 
+ 	function randomIntFromInterval(min,max){
+ 		   	return Math.floor(Math.random()*(max-min+1)+min);
+ 			}
+ 
+ 		var numberToGuess = randomIntFromInterval(19,120);
+ 
+ 		$('.value').text(numberToGuess);
+ 
+ 
+ 		$('.crystalImage').on('click', function(){
+ 		      counter = counter + parseInt($(this).data('num'));
+ 		     
+ 
+ 		   
+ 		      $('#yourScore').text(counter);
+ 		      if (counter == numberToGuess){
+ 		        alert('You won!!!!');
+ 	        wins ++;
+ 		        $('#win').text(wins);
+ 		        console.log(wins)
+ 		        $('#crystals').empty();
+ 	        newCrystals();
+ 		        newGame();
+ 		        
+ 		      }else if( counter > numberToGuess){
+ 		        alert('You lost!')
+ 		        losses ++;
+ 		        $('#loss').text(losses);
+ 		        console.log(losses)
+ 		        $('#crystals').empty();
+ 	        newCrystals();
+ 		        newGame();
+ 		      }
+ 	    });
+ </script>
+  
+
+</body>
+
+</html>
